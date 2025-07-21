@@ -24,7 +24,7 @@ document.getElementById("container").appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 0.25; // Giảm 50% so với 0.5
+controls.autoRotateSpeed = 0.125; // Giảm 50% so với 0.25
 controls.enabled = false;
 controls.target.set(0, 0, 0);
 controls.enablePan = false;
@@ -1004,22 +1004,30 @@ function createTextRings() {
     const ctx = textCanvas.getContext("2d");
 
     ctx.clearRect(0, 0, textCanvas.width, textureHeight);
-    ctx.font = `bold ${fontSize}px Arial, sans-serif`;
-    ctx.fillStyle = "white";
+    ctx.font = `900  ${fontSize}px Montserrat, Arial Black, Arial, sans-serif`;
     ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";
 
+    // Định nghĩa màu cho từng dòng
+    const ringColors = [
+      "#ffe066", // vàng tươi
+      "#00eaff", // xanh cyan
+      "#ff7b54", // cam sáng
+      "#c77dff"  // tím sáng
+    ];
+    const textColor = ringColors[i % 4];
+
     // Hiệu ứng glow cho viền chữ
-    ctx.shadowColor = "#e0b3ff";
-    ctx.shadowBlur = 18;
-    ctx.lineWidth = 7;
-    ctx.strokeStyle = "#fff";
-    ctx.strokeText(fullText, 0, textureHeight * 0.82); // căn dòng thấp hơn
+    ctx.shadowColor = textColor;
+    ctx.shadowBlur = 22;
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = textColor;
+    ctx.strokeText(fullText, 0, textureHeight * 0.82);
 
     // Hiệu ứng glow cho phần fill
-    ctx.shadowColor = "#ffb3de";
-    ctx.shadowBlur = 24;
-    ctx.fillStyle = "#fff";
+    ctx.shadowColor = "#fff";
+    ctx.shadowBlur = 18;
+    ctx.fillStyle = textColor;
     ctx.fillText(fullText, 0, textureHeight * 0.84);
 
     const ringTexture = new THREE.CanvasTexture(textCanvas);
@@ -1054,7 +1062,7 @@ function createTextRings() {
     ringGroup.userData = {
       ringRadius: ringRadius,
       angleOffset: 0.15 * Math.PI * 0.5,
-      speed: 0.001125, // Giảm 50% so với 0.00225 (0.002 + 0.00025)
+      speed: 0.0005625, // Giảm 50% so với 0.001125
       tiltSpeed: 0,
       rollSpeed: 0,
       pitchSpeed: 0, // Tốc độ lắc
@@ -1470,7 +1478,7 @@ function createHintText() {
   canvas.width = canvas.height = canvasSize;
   const context = canvas.getContext("2d");
   const fontSize = 50;
-  const text = "Chạm Vào Tinh Cầu";
+  const text = "Chạm vào hành tinh";
   context.font = `bold ${fontSize}px Arial, sans-serif`;
   context.textAlign = "center";
   context.textBaseline = "middle";
